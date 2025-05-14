@@ -39,3 +39,15 @@ diferenca entre classe abstrata e interface
 o que e DDD
 
 diferenca entre entidade e value object
+
+microservicos 
+
+EDA
+
+cancellation token
+
+circuit break
+
+monitoria
+
+saga pattern
