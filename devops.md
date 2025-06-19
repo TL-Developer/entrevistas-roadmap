@@ -1,9 +1,6 @@
 docker
-kubernetes terraform
+kubernetes
+terraform
 ci e cd
 canary deployment 
 blue green 
-
-rabbit
-
-kafka
