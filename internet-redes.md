@@ -75,3 +75,88 @@ Notas finais:
 - Escolha protocolos e configurações com base em requisitos de latência, confiabilidade e segurança.
 - Sempre habilite TLS para tráfego sensível e monitore métricas de rede (latência, retransmissões, erros).
 
+
+## Fundamentos de Redes
+
+- O que é uma rede de computadores?
+	- Conjunto de dispositivos interconectados que trocam dados usando protocolos padronizados. Inclui hosts, switches, routers, links e serviços de infraestrutura (DHCP, DNS).
+- Conceitos chave?
+	- Banda (throughput), latência (RTT), jitter, perda de pacotes, MTU e capacidade de link. Topologias (star, mesh, bus) e camadas de rede.
+- Endereçamento e roteamento?
+	- Endereços IP (IPv4/IPv6) identificam hosts; roteadores tomam decisões baseadas em tabelas/routing protocols (BGP, OSPF) para encaminhar pacotes entre redes.
+- NAT e por que existe?
+	- Network Address Translation permite múltiplos hosts privados compartilharem um IP público, resolvendo escassez de endereços e provendo isolamento básico.
+
+
+## Modelo OSI (visão geral)
+
+- O que é o modelo OSI?
+	- Modelo de referência em 7 camadas que ajuda a entender funções de rede: Física, Enlace (Data Link), Rede, Transporte, Sessão, Apresentação e Aplicação.
+- Resumo das camadas:
+	- 1 Física: meios físicos (cabos, sinais elétricos/ópticos)
+	- 2 Enlace: frames, switches, MAC addresses, detecção de erro (Ethernet)
+	- 3 Rede: roteamento, IP, encaminhamento entre sub-redes
+	- 4 Transporte: TCP/UDP, multiplexação por portas, confiabilidade
+	- 5 Sessão: gerenciamento de sessões/conexões (ex.: estabelecimento/fechamento)
+	- 6 Apresentação: formatação, criptografia, compressão (ex.: TLS opera aqui/entre camada de apresentação e sessão)
+	- 7 Aplicação: protocolos de alto nível (HTTP, DNS, SMTP)
+- Por que é útil?
+	- Ajudar a isolar problemas, projetar soluções e entender onde aplicar controles (ex.: firewall L4 vs WAF L7).
+
+
+## Firewall — conceitos e tipos
+
+- O que é um firewall?
+	- Dispositivo (hardware/software) que controla o tráfego de rede com base em regras de segurança, filtrando pacotes ou conexões indesejadas.
+- Tipos de firewall:
+	- Packet-filtering (stateless): regras baseadas em IP/porta/protocolo; simples e rápido.
+	- Stateful firewall: acompanha estado da conexão (SYN/ACK), permite regras mais inteligentes.
+	- Proxy / Application-level firewall: interpreta protocolos e pode filtrar conteúdo (ex.: proxy HTTP).
+- Regras e políticas?
+	- Baseadas em listas brancas/ negras, zone-based policies, NAT rules, e inspeção de porta e IP. Princípio do menor privilégio: negar por padrão e permitir explicitamente.
+- Onde aplicar?
+	- Na borda (perimeter firewall), entre zonas (DMZ, VPC), host-based (firewall local) e em cloud (security groups, NACLs).
+- Boas práticas?
+	- Segmentar redes, usar regras menos permissivas, registrar logs, revisar regras periodicamente e aplicar defense-in-depth.
+
+
+## WAF (Web Application Firewall)
+
+- O que é um WAF?
+	- Firewall específico para aplicações web que opera na camada HTTP/HTTPS (L7) e protege contra ataques como SQL Injection, XSS, CSRF e outras ameaças ao app.
+- Como funciona?
+	- Inspeção de requests/responses, regras baseadas em assinaturas, listas, e heurísticas; pode usar aprendizado/ML para detectar padrões anômalos.
+- Diferença entre firewall tradicional e WAF?
+	- Firewall tradicional filtra pacotes/conexões (L3/L4); WAF compreende o conteúdo HTTP e assemelha-se a um proxy reverso com regras específicas de aplicação.
+- Integração com arquitetura?
+	- Normalmente colocado na borda (CDN/edge ou antes do API Gateway) ou como plugin no gateway; pode trabalhar com rate limiting, WAF rules e logging para SIEM.
+- Limitações e armadilhas?
+	- Falsos positivos, necessidade de tuning, não substitui correções no código; desempenho pode ser impactado se inspeção for muito pesada.
+
+
+## Autenticação Multifator (MFA)
+
+- O que é MFA?
+	- Autenticação Multifator exige mais de um fator de verificação antes de conceder acesso: algo que você sabe (senha), algo que você tem (token, dispositivo) e algo que você é (biometria).
+- Exemplos de fatores?
+	- Conhecimento: senha, PIN.
+	- Posse: TOTP (apps como Google Authenticator), SMS (menos seguro), hardware keys (YubiKey, FIDO2/WebAuthn), push notifications.
+	- Inerência: impressão digital, reconhecimento facial, voz.
+- Por que usar MFA?
+	- Reduz significativamente o risco de comprometimento por credenciais roubadas ou senhas fracas; é uma defesa efetiva contra ataques de credential stuffing e phishing (dependendo do fator).
+- Formas comuns de implementação?
+	- TOTP (Time-based One-Time Password), SMS OTP (não recomendado como único segundo fator), Push-based MFA (aprovação via app), WebAuthn/FIDO2 para autenticação sem senha ou como segundo fator.
+- Boas práticas?
+	- Preferir fatores resistentes a phishing (FIDO2/WebAuthn), oferecer backup codes e métodos de recuperação seguros, impor MFA para contas privilegiadas, exigir re-authentication para ações sensíveis e monitorar tentativas falhas.
+- Riscos e limitações?
+	- SMS interceptação/SS7/vulnerabilidades de SIM swap; provisionamento e suporte ao usuário; gestão de dispositivos e recuperação segura (evitar resets inseguros).
+- Recomendação para API/serviços?
+	- Fornecer endpoints para registrar/desregistrar autenticadores, validar TOTP server-side, suportar WebAuthn, logar eventos de autenticação e forçar MFA em mudanças sensíveis (ex.: alteração de email, saque).
+
+### Perguntas de entrevista sugeridas (curtas)
+- O que é MFA e quais são seus fatores?
+- Por que SMS não é recomendado como único segundo fator?
+- O que é WebAuthn/FIDO2 e por que é preferível em muitos cenários?
+- Como desenhar um fluxo de recuperação seguro para usuários que perderam o segundo fator?
+
+
