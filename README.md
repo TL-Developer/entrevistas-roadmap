@@ -3,7 +3,7 @@
 Awesome System Design Resources
 
 <p align="center">
-  <img src="diagrams/system-design-github.png" width="400" height="250">
+  <img src="https://github.com/ashishps1/awesome-system-design-resources/blob/main/diagrams/system-design-github.png" width="400" height="250">
 </p>
 
 This repository contains free resources to learn System Design concepts and prepare for interviews.
