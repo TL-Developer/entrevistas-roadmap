@@ -172,6 +172,20 @@ Os níveis são cumulativos: tudo que é esperado de um Júnior também é esper
 
 ## Staff
 
+### Referência de mercado: os 3 pilares e os 4 arquétipos do Staff Engineer
+Duas obras de referência do mercado formalizam o que é o trabalho de Staff+ e ajudam a calibrar expectativa de forma mais concreta que "senioridade alta":
+
+- **Os 3 pilares** (Tanya Reilly, *The Staff Engineer's Path*):
+  1. **Big-picture thinking** — pensar além do ciclo atual: iniciar projetos de um ano, prever o que a empresa vai precisar daqui a 3 anos, construir software fácil de desligar/substituir no futuro.
+  2. **Execução** — tocar projetos mais ambíguos e complexos que exigem articulação entre múltiplas pessoas/times, capital político e, às vezes, mudança de cultura — não só código.
+  3. **Leveling up** — elevar o nível técnico de quem está ao redor, por influência intencional (mentoria, revisão, ensino) e acidental (ser referência de comportamento/padrão).
+- **Os 4 arquétipos de Staff-plus** (Will Larson, *Staff Engineer: Leadership Beyond the Management Track*):
+  1. **Tech Lead** — guia abordagem e execução técnica de um time específico, em parceria próxima com o gestor desse time.
+  2. **Architect** — dono da direção, qualidade e abordagem técnica de uma área crítica, combinando restrições técnicas, necessidade dos usuários e liderança no nível da organização. *(Importante: no vocabulário de Larson, "Architect" é um dos quatro arquétipos de Staff Engineer, não necessariamente um cargo separado — veja a seção "Arquiteto de Software" abaixo para a visão alternativa, mais comum em empresas maiores, de Arquiteto como papel com autoridade formal distinta.)*
+  3. **Solver** — aprofunda em problemas muito complexos e ambíguos; alguns ficam em uma área por muito tempo, outros migram de "incêndio" em "incêndio" conforme a liderança direciona.
+  4. **Right Hand** — estende a atenção e o escopo de um executivo em organizações complexas, atuando onde for mais necessário.
+- Use os dois frameworks juntos: os 3 pilares descrevem **o tipo de trabalho**; os 4 arquétipos descrevem **onde esse trabalho se concentra**. Um Staff pode, por exemplo, atuar como "Architect" (arquétipo) dentro do pilar de "big-picture thinking".
+
 ### O que se espera / dia a dia
 - Define padrões arquiteturais e tecnológicos para múltiplos times, não apenas para o próprio.
 - Conduz migrações de larga escala (ex.: monolito → microsserviços, .NET Framework → .NET moderno) minimizando risco.
@@ -211,17 +225,26 @@ Os níveis são cumulativos: tudo que é esperado de um Júnior também é esper
 - Conduz post-mortems de incidentes críticos e transforma aprendizados em melhorias sistêmicas.
 - Escreve RFCs/ADRs e obtém buy-in de múltiplos stakeholders técnicos e de negócio.
 - Mentora sêniores e plenos em decisões de design sem centralizar todas as decisões em si.
+- Faz **"Glue Work"** (conceito de Tanya Reilly) sem se incomodar com o fato de ser um trabalho pouco visível: integrar novos membros, destravar pessoas travadas, construir consenso entre times, escrever documentação e conduzir design reviews — trabalho que frequentemente decide se um projeto dá certo, mesmo não aparecendo em métricas de código.
 
 ---
 
 ## Arquiteto de Software
 
 ### Arquiteto vs. Staff — qual a diferença?
-No mercado, as duas trilhas se sobrepõem bastante e muitas empresas usam os títulos quase como sinônimos — mas, onde existem como papéis distintos, a diferença mais citada é de **escopo e autoridade**, não de senioridade técnica:
-- **Staff Engineer**: lidera entregas de alto impacto e mentora o time, mas tipicamente **influencia sem autoridade formal** — convence pelo argumento técnico, não pela posição ("influence without authority" é a frase recorrente em descrições de vaga e em livros como *The Staff Engineer's Path*).
-- **Arquiteto**: tem a palavra final sobre decisões estruturais — **diz o que deve ser feito**, documenta a arquitetura formalmente, faz a interface entre stakeholders de negócio e técnicos, e é cobrado pela governança dessas decisões ao longo do tempo (não só por propô-las).
-- Na prática: Staff tende a nascer de dentro de um time de produto com forte senioridade de execução; Arquiteto tende a ter responsabilidade formal sobre o desenho do sistema (ou de um domínio/portfólio) e presta contas por isso em comitês de arquitetura.
-- Vale a sobreposição: boa parte do conteúdo do nível Staff acima (observabilidade, SLOs, alta disponibilidade, EDA, radar de tecnologia) também é esperado de um Arquiteto — a seção abaixo foca no que é **adicional e específico** do papel de Arquiteto.
+Existem duas visões de mercado que vale conhecer, porque entrevistadores e empresas usam ambas:
+- **Visão 1 — Architect como arquétipo de Staff** (Will Larson, *Staff Engineer*): "Architect" é um dos 4 arquétipos de Staff-plus (junto com Tech Lead, Solver e Right Hand), não um cargo à parte. Nessa visão, um Staff Engineer "modo Architect" é dono da direção técnica de uma área crítica, mas segue sem autoridade formal de gestão — convence pelo argumento, não pela posição.
+- **Visão 2 — Arquiteto como papel com autoridade formal distinta** (mais comum em empresas maiores/tradicionais, inclusive em vagas de mercado brasileiras de "Arquiteto de Software/Soluções"): o Arquiteto tem a palavra final sobre decisões estruturais — **diz o que deve ser feito**, documenta a arquitetura formalmente, faz a interface entre stakeholders de negócio e técnicos, e é cobrado pela governança dessas decisões ao longo do tempo (não só por propô-las) em comitês de arquitetura.
+- Na prática: o título varia por empresa. O que não varia é o tipo de responsabilidade: quanto mais formal o papel de Arquiteto, mais ele é cobrado por decisões estruturais documentadas e por garantir que elas sejam seguidas — e menos por "convencer", como no Staff puro.
+- Vale a sobreposição: boa parte do conteúdo do nível Staff acima (observabilidade, SLOs, alta disponibilidade, EDA, radar de tecnologia, os 3 pilares de Reilly) também é esperado de um Arquiteto — a seção abaixo foca no que é **adicional e específico** do papel, com base no livro *Fundamentals of Software Architecture* (Mark Richards e Neal Ford), referência de mercado para a disciplina.
+
+### Fundamentos do papel (Richards & Ford)
+- **As duas leis da arquitetura de software**:
+  1. **Tudo em arquitetura de software é trade-off** — se parece que algo não é um trade-off, é porque o trade-off ainda não foi identificado. Não existe "melhor solução" isolada, só a mais adequada para o contexto e as restrições dadas.
+  2. **O "porquê" é mais importante que o "como"** — documentar a razão de uma decisão (contexto, restrições, alternativas descartadas) importa mais do que os detalhes de implementação, que mudam com o tempo; é exatamente o papel do ADR.
+- **Architecture characteristics ("-ilities")**: o termo que o livro usa para o que este guia chama de NFRs — disponibilidade, confiabilidade, escalabilidade, performance, segurança, testabilidade, deployability etc. — e que o Arquiteto precisa identificar explicitamente para cada sistema, priorizá-las (nem toda característica cabe, escolher poucas e relevantes) e verificar se a arquitetura as atende.
+- **Fitness functions**: mecanismos automatizados (testes de arquitetura, métricas, regras de CI) que verificam continuamente se a arquitetura continua atendendo às characteristics definidas — evita que a arquitetura "decida" se degradar silenciosamente ao longo do tempo.
+- **8 expectativas do arquiteto**, segundo o livro: tomar decisões arquiteturais (não decisões de implementação, que são do time); analisar continuamente a arquitetura e o ambiente técnico; manter-se atualizado com tendências de mercado (conecta com a seção de radar de tecnologia do Staff); garantir que as decisões tomadas estejam sendo seguidas na prática; ter exposição e experiência diversa (múltiplas stacks, plataformas, estilos); ter conhecimento do domínio de negócio, não só de tecnologia; ter habilidades interpessoais (facilitação, negociação, apresentação, mentoria); e entender e navegar a política da organização.
 
 ### O que se espera / dia a dia
 - Traduz visão de negócio em solução técnica e é o elo formal entre stakeholders de negócio e times técnicos.
@@ -290,9 +313,11 @@ Notas finais:
 - Senioridade não é só conhecimento técnico: também é escopo de impacto, autonomia e capacidade de influenciar decisões — por isso cada nível traz também o que se espera no dia a dia e no comportamental.
 - Staff e Arquiteto se sobrepõem bastante no mercado; em muitas empresas são o mesmo cargo. A distinção usada aqui (autoridade formal sobre decisões estruturais vs. influência sem autoridade) é a mais citada em comparações de mercado, mas varia de empresa para empresa.
 
-Referências de mercado usadas na seção de Arquiteto:
+Referências de mercado usadas nas seções de Staff e Arquiteto:
 - [C4 Model](https://c4model.com)
 - [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
 - [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)
 - Martin Fowler, [Who Needs an Architect?](https://martinfowler.com/ieeeSoftware/whoNeedsArchitect.pdf)
-- [The Staff Engineer's Path](https://noidea.dog/staff), de Tanya Reilly
+- Mark Richards e Neal Ford, [*Fundamentals of Software Architecture: An Engineering Approach*](https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/) — leis da arquitetura, architecture characteristics, fitness functions e as 8 expectativas do arquiteto.
+- Will Larson, [*Staff Engineer: Leadership Beyond the Management Track*](https://staffeng.com/book) — os 4 arquétipos de Staff-plus (Tech Lead, Architect, Solver, Right Hand).
+- Tanya Reilly, [*The Staff Engineer's Path*](https://www.oreilly.com/library/view/the-staff-engineers/9781098118723/) — os 3 pilares (big-picture, execução, leveling up) e o conceito de "Glue Work" ([noidea.dog/glue](https://noidea.dog/glue)).
