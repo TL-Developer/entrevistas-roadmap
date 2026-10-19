@@ -16,7 +16,7 @@ Cada nível traz:
 - **Banco de dados (SQL e NoSQL)** — profundidade esperada.
 - **Arquitetura, resiliência e mensageria** — rate limit, circuit breaker, idempotência, API Gateway, mensageria, arquitetura orientada a eventos.
 - **Cloud, CI/CD, Docker e Kubernetes** — o que se espera operar/entender.
-- **Comportamental** — postura e impacto esperados.
+- **Comportamental, cultura e troubleshooting** — postura, impacto e maturidade de resolução de problemas esperados.
 
 Os níveis são cumulativos: tudo que é esperado de um Júnior também é esperado de um Pleno, e assim por diante.
 
@@ -64,8 +64,10 @@ Os níveis são cumulativos: tudo que é esperado de um Júnior também é esper
 - Entende o que é um pipeline de CI/CD (build → test → deploy) e consegue acompanhar um pipeline existente.
 - Conhece o conceito de nuvem (IaaS/PaaS/SaaS) em nível introdutório.
 
-### Comportamental
+### Comportamental, cultura e troubleshooting
 - Comunica bloqueios cedo, é receptivo a feedback e documenta o que aprende.
+- **Troubleshooting**: sabe reproduzir um bug a partir de passos claros, ler stack traces e logs básicos, usar o debugger da IDE; diferencia "não sei resolver" de "não tentei o suficiente" e pede ajuda depois de uma tentativa genuína, não antes nem tarde demais.
+- Não tem medo de admitir erro ou de perguntar algo "óbvio" — cultura de time seguro para errar (ver `cultura-carreira-comportamental.md`) começa em como o Júnior é tratado quando erra.
 
 ---
 
@@ -116,8 +118,10 @@ Os níveis são cumulativos: tudo que é esperado de um Júnior também é esper
 - Noções de Kubernetes: Pod, Deployment, Service, ConfigMap/Secret — consegue debugar um pod com problema.
 - Diferença entre IaaS, PaaS e SaaS aplicada a decisões reais de projeto.
 
-### Comportamental
+### Comportamental, cultura e troubleshooting
 - Propõe soluções, não só aponta problemas; equilibra prazos e qualidade; mentora juniores informalmente.
+- **Troubleshooting**: debuga de forma independente em código que não escreveu, usando ferramentas de profiling/tracing (Chrome DevTools, dotTrace, Application Insights) além do debugger; investiga problemas de performance com dados (métricas, logs), não achismo; sabe isolar a causa provável antes de sair mudando código.
+- Participa de investigações de incidentes contribuindo com dados e hipóteses, mesmo sem liderar a investigação ainda.
 
 ---
 
@@ -165,8 +169,10 @@ Os níveis são cumulativos: tudo que é esperado de um Júnior também é esper
 - Estratégias de deploy seguro: canary, blue-green, rollback automático.
 - Infraestrutura como código (Terraform) e GitOps.
 
-### Comportamental
+### Comportamental, cultura e troubleshooting
 - Comunica decisões técnicas complexas para públicos técnicos e não técnicos; assume responsabilidade por incidentes e pelo resultado do time.
+- **Troubleshooting**: lidera investigação de incidentes cross-service, correlacionando logs, métricas e traces distribuídos (OpenTelemetry/Jaeger); resolve problemas ambíguos sem reprodução clara, formulando e testando hipóteses metodicamente (ex.: eliminação por bisecção, comparação com baseline).
+- **Cultura de postmortem sem culpa ("blameless postmortem")**: conduz RCA focado em entender *como* o sistema permitiu a falha (fatores situacionais, decisões no contexto do momento), não em *quem* errar — conceito formalizado por John Allspaw na Etsy, hoje prática padrão em times de alta maturidade (SRE do Google, PagerDuty, etc.). Um time com medo de punição esconde informação e perde a chance real de aprender com o incidente.
 
 ---
 
@@ -215,17 +221,20 @@ Duas obras de referência do mercado formalizam o que é o trabalho de Staff+ e 
 - Define e acompanha SLIs/SLOs/SLAs de serviços críticos; decide o que fazer quando não são atingidos (error budget).
 - Garante compatibilidade de contratos (schemas de eventos, versionamento de API) entre dezenas de serviços de times diferentes.
 - Decide estratégias de resiliência e alta disponibilidade em nível de organização (não só de um serviço).
+- **Arquitetura celular (cell-based)**: conhece o padrão (popularizado pela AWS) de particionar o sistema em "células" independentes, cada uma servindo um subconjunto de clientes/tráfego, para limitar o *blast radius* — o impacto máximo de uma falha única. Entende que redundância multi-AZ/multi-region cobre falha de infraestrutura, mas não cobre falha de deploy ruim ou erro operacional; células contêm esse segundo tipo de falha.
 
 ### Cloud, CI/CD, Docker e Kubernetes
 - Define estratégia de infraestrutura multi-region/multi-cloud para disaster recovery em nível organizacional.
 - Padroniza pipelines de CI/CD e práticas de deploy seguro entre múltiplos times.
 - Avalia custo vs performance vs complexidade antes de propor mudanças de infraestrutura em larga escala.
 
-### Comportamental
+### Comportamental, cultura e troubleshooting
 - Conduz post-mortems de incidentes críticos e transforma aprendizados em melhorias sistêmicas.
 - Escreve RFCs/ADRs e obtém buy-in de múltiplos stakeholders técnicos e de negócio.
 - Mentora sêniores e plenos em decisões de design sem centralizar todas as decisões em si.
 - Faz **"Glue Work"** (conceito de Tanya Reilly) sem se incomodar com o fato de ser um trabalho pouco visível: integrar novos membros, destravar pessoas travadas, construir consenso entre times, escrever documentação e conduzir design reviews — trabalho que frequentemente decide se um projeto dá certo, mesmo não aparecendo em métricas de código.
+- **Troubleshooting em escala**: não resolve incidente sozinho — constrói os sistemas e processos (observabilidade padronizada, runbooks, ferramentas de diagnóstico) que permitem qualquer time investigar problemas sem depender dele. Trata um incidente recorrente como sinal de lacuna sistêmica a corrigir, não como mau desempenho de quem respondeu.
+- Reforça ativamente a cultura de **postmortem sem culpa** entre times (não só no próprio) — questiona processos quando percebe que pessoas escondem erros por medo, porque isso destrói a capacidade do time de aprender com falhas.
 
 ---
 
@@ -267,6 +276,12 @@ Existem duas visões de mercado que vale conhecer, porque entrevistadores e empr
 - **Azure Well-Architected Framework** — equivalente da Microsoft, com 5 pilares: Reliability, Security, Cost Optimization, Operational Excellence e Performance Efficiency.
 - Usar um desses frameworks (ou um checklist próprio inspirado neles) como guia de revisão antes de aprovar uma arquitetura evita que decisões sejam tomadas só pensando em requisito funcional.
 
+**Resiliência em escala: Arquitetura Celular (Cell-Based) — e como ela se relaciona com DDD**
+- **Arquitetura celular**: padrão (popularizado pela AWS) de particionar o sistema em "células" independentes — cada uma com sua própria capacidade, dados e failure domain — servindo um subconjunto de clientes/tráfego. O objetivo é limitar o **blast radius**: o impacto máximo que uma única falha pode causar.
+- Diferente de multi-AZ/multi-region (que protegem contra falha de infraestrutura), células também contêm falhas de **deploy ruim ou erro operacional** — o tipo de falha que uma região saudável não impede, porque o problema está no código/config, não no datacenter.
+- **Não é "versus" DDD — é complementar**: DDD (Sênior) define *onde* estão as fronteiras de domínio (bounded contexts); arquitetura celular (Arquiteto/Staff) decide *como particionar infraestrutura e tráfego* para isolar falhas. Bounded contexts mal definidos tendem a virar células mal particionadas, com acoplamento cruzando a fronteira que deveria isolar a falha — por isso o Arquiteto precisa entender ambos para desenhar partições que façam sentido de domínio e de infraestrutura ao mesmo tempo.
+- Trade-off conhecido: células menores reduzem blast radius, mas multiplicam rotas, dashboards e pipelines de deploy — exige **shuffle sharding** (distribuir clientes entre células de forma que nenhum cliente fique preso sempre na mesma célula sobrecarregada) e rollout disciplinado (nunca publicar em todas as células de uma vez).
+
 **Governança e processo**
 - Define escopo de governança com ferramentas como **RACI** (quem é Responsável, Aprovador, Consultado, Informado em cada decisão) para não virar gargalo nem perder rastreabilidade.
 - Garante que decisões arquiteturais relevantes fiquem documentadas (ADRs) e acessíveis, não só na cabeça de quem decidiu.
@@ -275,10 +290,12 @@ Existem duas visões de mercado que vale conhecer, porque entrevistadores e empr
 **Certificações e referências de mercado**
 Não são pré-requisito, mas funcionam como sinal de mercado e guia de estudo estruturado: **AWS Certified Solutions Architect**, **Microsoft Certified: Azure Solutions Architect Expert (AZ-305)** e certificação **TOGAF**. Para aprofundar a teoria por trás do papel, as referências mais citadas no mercado são os artigos de Martin Fowler sobre arquitetura de software (ex.: *"Who Needs an Architect?"*) e o site [c4model.com](https://c4model.com).
 
-### Comportamental
+### Comportamental, cultura e troubleshooting
 - Assume a responsabilidade pela decisão, não só pela sugestão — inclusive quando a decisão se mostra errada depois.
 - Comunica trade-offs de forma que stakeholders de negócio entendam o risco, sem simplificar a ponto de esconder a complexidade real.
 - Sabe dizer "não" ou "ainda não" para pedidos que comprometem a arquitetura no médio prazo, justificando com dados e trade-offs — não com autoridade de cargo.
+- Projeta **debugabilidade/observabilidade como architecture characteristic desde o início** (não como algo que se adiciona depois de um incidente) — exige que todo serviço novo nasça com logging estruturado, métricas e tracing antes de ir para produção.
+- Audita se a cultura de postmortem sem culpa está realmente sendo seguida entre times (não só declarada) — times que punem quem relata erro geram informação de pior qualidade sobre as próprias falhas da arquitetura.
 
 ---
 
@@ -304,6 +321,8 @@ Não são pré-requisito, mas funcionam como sinal de mercado e guia de estudo e
 | Radar de tecnologia / amplitude | — | — | Profundidade na própria stack | Amplitude entre stacks; mapeia known/unknown unknowns | Usa para avaliar build vs buy |
 | Modelagem e documentação | — | — | — | RFCs/ADRs pontuais | C4 Model, ADR, TOGAF/ArchiMate, ATAM |
 | Governança | — | — | — | Influencia sem autoridade formal | Autoridade formal + RACI + comitê de arquitetura |
+| Troubleshooting | Reproduz bug com apoio | Debuga sozinho, usa profiling | Lidera RCA, correlaciona logs/métricas/traces | Postmortem sem culpa; ferramentas de diagnóstico org. | Observabilidade como architecture characteristic desde o design |
+| Arquitetura celular (blast radius) | — | — | — | Conhece o padrão | Decide e combina com fronteiras de DDD |
 
 ---
 
@@ -321,3 +340,5 @@ Referências de mercado usadas nas seções de Staff e Arquiteto:
 - Mark Richards e Neal Ford, [*Fundamentals of Software Architecture: An Engineering Approach*](https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/) — leis da arquitetura, architecture characteristics, fitness functions e as 8 expectativas do arquiteto.
 - Will Larson, [*Staff Engineer: Leadership Beyond the Management Track*](https://staffeng.com/book) — os 4 arquétipos de Staff-plus (Tech Lead, Architect, Solver, Right Hand).
 - Tanya Reilly, [*The Staff Engineer's Path*](https://www.oreilly.com/library/view/the-staff-engineers/9781098118723/) — os 3 pilares (big-picture, execução, leveling up) e o conceito de "Glue Work" ([noidea.dog/glue](https://noidea.dog/glue)).
+- John Allspaw, [Blameless PostMortems and a Just Culture](https://www.etsy.com/codeascraft/blameless-postmortems/) (Etsy, 2012) — referência original da cultura de postmortem sem culpa usada nas seções de Sênior, Staff e Arquiteto.
+- AWS, [Guidance for Cell-Based Architecture](https://github.com/aws-solutions-library-samples/guidance-for-cell-based-architecture-on-aws) — padrão de particionamento para redução de blast radius usado na seção de Arquiteto.
