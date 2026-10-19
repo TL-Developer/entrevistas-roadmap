@@ -1,6 +1,6 @@
 # Trilha de Senioridade — Engenheiro(a) Full Stack (React + .NET)
 
-Guia consolidado do que é esperado, o que se faz no dia a dia e quais pré-requisitos técnicos cada nível de senioridade (Júnior, Pleno, Sênior e Staff) costuma exigir para uma vaga de engenharia full stack com **front-end em React** e **back-end em .NET**.
+Guia consolidado do que é esperado, o que se faz no dia a dia e quais pré-requisitos técnicos cada nível de senioridade (Júnior, Pleno, Sênior, Staff e Arquiteto) costuma exigir para uma vaga de engenharia full stack com **front-end em React** e **back-end em .NET**.
 
 Os tópicos aqui resumem e cruzam o conteúdo dos demais arquivos deste repositório (`frontend.md`, `backend.md`, `dotnet-por-senioridade.md`, `banco-de-dados.md`, `arquitetura.md`, `design-patterns.md`, `resiliencia-apis.md`, `alta-disponibilidade.md`, `gateway.md`, `loadbalancer.md`, `estrategias-cache.md`, `estrutura-dados-algoritmos.md`, `nuvem.md`, `devops.md`, `k8s-docker.md`, `autenticacao-auth.md`, `seguranca.md`, `api-restfull.md`, `cdn.md`, `internet-redes.md`, `cultura-carreira-comportamental.md`, `cases.md`) — use-os para aprofundar cada tópico citado.
 
@@ -214,26 +214,73 @@ Os níveis são cumulativos: tudo que é esperado de um Júnior também é esper
 
 ---
 
+## Arquiteto de Software
+
+### Arquiteto vs. Staff — qual a diferença?
+No mercado, as duas trilhas se sobrepõem bastante e muitas empresas usam os títulos quase como sinônimos — mas, onde existem como papéis distintos, a diferença mais citada é de **escopo e autoridade**, não de senioridade técnica:
+- **Staff Engineer**: lidera entregas de alto impacto e mentora o time, mas tipicamente **influencia sem autoridade formal** — convence pelo argumento técnico, não pela posição ("influence without authority" é a frase recorrente em descrições de vaga e em livros como *The Staff Engineer's Path*).
+- **Arquiteto**: tem a palavra final sobre decisões estruturais — **diz o que deve ser feito**, documenta a arquitetura formalmente, faz a interface entre stakeholders de negócio e técnicos, e é cobrado pela governança dessas decisões ao longo do tempo (não só por propô-las).
+- Na prática: Staff tende a nascer de dentro de um time de produto com forte senioridade de execução; Arquiteto tende a ter responsabilidade formal sobre o desenho do sistema (ou de um domínio/portfólio) e presta contas por isso em comitês de arquitetura.
+- Vale a sobreposição: boa parte do conteúdo do nível Staff acima (observabilidade, SLOs, alta disponibilidade, EDA, radar de tecnologia) também é esperado de um Arquiteto — a seção abaixo foca no que é **adicional e específico** do papel de Arquiteto.
+
+### O que se espera / dia a dia
+- Traduz visão de negócio em solução técnica e é o elo formal entre stakeholders de negócio e times técnicos.
+- Toma e documenta decisões estruturais ("coisas difíceis de mudar depois", na definição de Martin Fowler) — não apenas sugere, decide e é responsável pelo resultado.
+- Analisa alternativas de design contra restrições reais (custo, prazo, confiabilidade, time disponível) e escolhe a opção mais adequada, não a tecnicamente "mais elegante".
+- Participa (ou conduz) comitês/fóruns de arquitetura (architecture review board) para aprovar mudanças estruturais propostas por outros times.
+- Conduz provas de conceito (PoCs) para validar escolhas antes de comprometer o time com uma tecnologia ou padrão.
+
+### O que é bom saber
+
+**Documentação e modelagem de arquitetura**
+- **C4 Model** (Context, Container, Component, Code) — linguagem comum de diagramas para descrever um sistema em diferentes níveis de zoom; ferramentas de mercado: Structurizr, PlantUML, Mermaid (diagram-as-code).
+- **ADR (Architecture Decision Record)** — registrar cada decisão relevante com contexto, alternativas consideradas, trade-offs e consequência; é o principal mecanismo de rastreabilidade de decisões cobrado em arquitetura madura.
+- **ArchiMate / UML / TOGAF** — notações e frameworks de arquitetura corporativa (enterprise architecture) usados em organizações maiores para conectar arquitetura de negócio, aplicação, dados e tecnologia.
+- **ATAM (Architecture Tradeoff Analysis Method)** — método formal para avaliar como uma arquitetura atende (ou não) a múltiplos atributos de qualidade concorrentes entre si (ex.: performance vs segurança vs custo).
+
+**Requisitos não funcionais (NFRs) como responsabilidade central**
+- Performance, escalabilidade, confiabilidade, segurança, manutenibilidade e custo são, no mercado, descritos como os requisitos que "nenhum ticket de feature cobre" e que ficam sob responsabilidade do arquiteto — diferente dos requisitos funcionais, que o time de produto prioriza.
+- **AWS Well-Architected Framework** — referência de mercado amplamente usada como checklist de NFRs, com 6 pilares: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization e Sustainability.
+- **Azure Well-Architected Framework** — equivalente da Microsoft, com 5 pilares: Reliability, Security, Cost Optimization, Operational Excellence e Performance Efficiency.
+- Usar um desses frameworks (ou um checklist próprio inspirado neles) como guia de revisão antes de aprovar uma arquitetura evita que decisões sejam tomadas só pensando em requisito funcional.
+
+**Governança e processo**
+- Define escopo de governança com ferramentas como **RACI** (quem é Responsável, Aprovador, Consultado, Informado em cada decisão) para não virar gargalo nem perder rastreabilidade.
+- Garante que decisões arquiteturais relevantes fiquem documentadas (ADRs) e acessíveis, não só na cabeça de quem decidiu.
+- Equilibra padronização (reduzir variação técnica entre times) com autonomia (não travar entrega por burocracia arquitetural).
+
+**Certificações e referências de mercado**
+Não são pré-requisito, mas funcionam como sinal de mercado e guia de estudo estruturado: **AWS Certified Solutions Architect**, **Microsoft Certified: Azure Solutions Architect Expert (AZ-305)** e certificação **TOGAF**. Para aprofundar a teoria por trás do papel, as referências mais citadas no mercado são os artigos de Martin Fowler sobre arquitetura de software (ex.: *"Who Needs an Architect?"*) e o site [c4model.com](https://c4model.com).
+
+### Comportamental
+- Assume a responsabilidade pela decisão, não só pela sugestão — inclusive quando a decisão se mostra errada depois.
+- Comunica trade-offs de forma que stakeholders de negócio entendam o risco, sem simplificar a ponto de esconder a complexidade real.
+- Sabe dizer "não" ou "ainda não" para pedidos que comprometem a arquitetura no médio prazo, justificando com dados e trade-offs — não com autoridade de cargo.
+
+---
+
 ## Resumo rápido por tema (onde cada nível entra)
 
-| Tema | Júnior | Pleno | Sênior | Staff |
-|---|---|---|---|---|
-| Lógica de programação | Fundamentos | Aplica com critério | Trade-offs avançados | Define padrões p/ times |
-| Estrutura de dados | Básicas (array, lista, pilha, fila, hash) | Escolhe a certa (heap, árvore, grafo) | Avançadas + trade-offs de produção | — |
-| SQL | Básico (SELECT/JOIN) | Avançado (window functions, EXPLAIN) | Modelagem para CAP/sharding | Padrões entre times |
-| NoSQL | Noção | Modelagem por acesso | CAP, consistência, CDC | — |
-| Cloud | Noção (IaaS/PaaS/SaaS) | Usa pipelines e deploys | Multi-region, HA | Estratégia multi-cloud/org |
-| CI/CD | Acompanha pipeline | Configura pipeline | Canary/blue-green, rollback | Padroniza entre times |
-| Docker | Roda local | Escreve Dockerfile otimizado | — | — |
-| Kubernetes | — | Noções básicas | HPA, probes, RBAC, produção | Estratégia organizacional |
-| Rate limiting | Ouviu falar | Implementa | Combina com outros padrões | Define política global |
-| Circuit breaker | Ouviu falar | Implementa (Polly) | Combina com retry/timeout/bulkhead | Padrão de resiliência org. |
-| Idempotência | Noção | Implementa (idempotency-key) | Garante em sagas/eventos | Padrão entre serviços |
-| API Gateway | Consome API | Entende responsabilidades | Decide Gateway vs Service Mesh | Define padrão de borda |
-| Mensageria | — | Conceitos de fila | Kafka vs RabbitMQ, garantias de entrega | Compatibilidade de contratos |
-| Arquitetura orientada a eventos | — | Noção | Projeta (outbox, event sourcing) | Define padrões organizacionais |
-| Teorema CAP | — | — | Aplica na escolha de banco/arquitetura | Decide em nível de plataforma |
-| Radar de tecnologia / amplitude | — | — | Profundidade na própria stack | Amplitude entre stacks; mapeia known/unknown unknowns |
+| Tema | Júnior | Pleno | Sênior | Staff | Arquiteto |
+|---|---|---|---|---|---|
+| Lógica de programação | Fundamentos | Aplica com critério | Trade-offs avançados | Define padrões p/ times | — |
+| Estrutura de dados | Básicas (array, lista, pilha, fila, hash) | Escolhe a certa (heap, árvore, grafo) | Avançadas + trade-offs de produção | — | — |
+| SQL | Básico (SELECT/JOIN) | Avançado (window functions, EXPLAIN) | Modelagem para CAP/sharding | Padrões entre times | — |
+| NoSQL | Noção | Modelagem por acesso | CAP, consistência, CDC | — | — |
+| Cloud | Noção (IaaS/PaaS/SaaS) | Usa pipelines e deploys | Multi-region, HA | Estratégia multi-cloud/org | Well-Architected (AWS/Azure) como guia de decisão |
+| CI/CD | Acompanha pipeline | Configura pipeline | Canary/blue-green, rollback | Padroniza entre times | Governança de padrões entre portfólios |
+| Docker | Roda local | Escreve Dockerfile otimizado | — | — | — |
+| Kubernetes | — | Noções básicas | HPA, probes, RBAC, produção | Estratégia organizacional | — |
+| Rate limiting | Ouviu falar | Implementa | Combina com outros padrões | Define política global | Aprova como NFR em ADR |
+| Circuit breaker | Ouviu falar | Implementa (Polly) | Combina com retry/timeout/bulkhead | Padrão de resiliência org. | Aprova como NFR em ADR |
+| Idempotência | Noção | Implementa (idempotency-key) | Garante em sagas/eventos | Padrão entre serviços | Exige como requisito de design |
+| API Gateway | Consome API | Entende responsabilidades | Decide Gateway vs Service Mesh | Define padrão de borda | Decide e documenta (ADR) |
+| Mensageria | — | Conceitos de fila | Kafka vs RabbitMQ, garantias de entrega | Compatibilidade de contratos | Decide e documenta (ADR) |
+| Arquitetura orientada a eventos | — | Noção | Projeta (outbox, event sourcing) | Define padrões organizacionais | Aprova em comitê de arquitetura |
+| Teorema CAP | — | — | Aplica na escolha de banco/arquitetura | Decide em nível de plataforma | Formaliza trade-off em ADR |
+| Radar de tecnologia / amplitude | — | — | Profundidade na própria stack | Amplitude entre stacks; mapeia known/unknown unknowns | Usa para avaliar build vs buy |
+| Modelagem e documentação | — | — | — | RFCs/ADRs pontuais | C4 Model, ADR, TOGAF/ArchiMate, ATAM |
+| Governança | — | — | — | Influencia sem autoridade formal | Autoridade formal + RACI + comitê de arquitetura |
 
 ---
 
@@ -241,3 +288,11 @@ Notas finais:
 - Use este arquivo como checklist de estudo (candidato) ou como referência de calibração de nível (entrevistador).
 - Para aprofundar cada tópico, consulte o arquivo específico correspondente neste repositório (ex.: `resiliencia-apis.md` para rate limit/circuit breaker, `banco-de-dados.md` para SQL/NoSQL/CAP, `k8s-docker.md` para Docker/Kubernetes, `devops.md` para CI/CD, `nuvem.md` para cloud, `backend.md` para mensageria/CQRS/Saga).
 - Senioridade não é só conhecimento técnico: também é escopo de impacto, autonomia e capacidade de influenciar decisões — por isso cada nível traz também o que se espera no dia a dia e no comportamental.
+- Staff e Arquiteto se sobrepõem bastante no mercado; em muitas empresas são o mesmo cargo. A distinção usada aqui (autoridade formal sobre decisões estruturais vs. influência sem autoridade) é a mais citada em comparações de mercado, mas varia de empresa para empresa.
+
+Referências de mercado usadas na seção de Arquiteto:
+- [C4 Model](https://c4model.com)
+- [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
+- [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)
+- Martin Fowler, [Who Needs an Architect?](https://martinfowler.com/ieeeSoftware/whoNeedsArchitect.pdf)
+- [The Staff Engineer's Path](https://noidea.dog/staff), de Tanya Reilly
