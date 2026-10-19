@@ -183,6 +183,19 @@ Os níveis são cumulativos: tudo que é esperado de um Júnior também é esper
 - Estabelece guidelines de arquitetura (quando usar microsserviços, EDA, BFF, Module Federation) e garante consistência entre squads.
 - Avalia build vs buy para ferramentas e serviços de terceiros.
 
+### Visão técnica ampla (Technology Radar)
+- Diferente do Sênior (que aprofunda verticalmente), o Staff precisa de **amplitude**: entender o suficiente de áreas fora do seu dia a dia (dados, segurança, mobile, infra, IA/ML, outras stacks) para fazer boas perguntas, avaliar riscos e conversar com especialistas de qualquer área.
+- Mantém e revisa periodicamente um **mapa consciente do próprio conhecimento**, no espírito da matriz popularizada por Rumsfeld e usada em contextos de arquitetura/Staff Engineer (ex.: *The Staff Engineer's Path*, de Tanya Reilly):
+  - **O que eu sei que sei** (known knowns) — domínio sólido, pode decidir e ensinar.
+  - **O que eu sei que não sei** (known unknowns) — lacunas conhecidas; vira item de estudo ou de consulta a um especialista.
+  - **O que eu não sei que não sei** (unknown unknowns) — o ponto cego real: tecnologias, práticas ou riscos que nem estão no radar e que podem gerar decisões ruins por ignorância, não por má escolha.
+  - Objetivo prático: reduzir o terceiro quadrante continuamente, movendo itens para "sei que não sei" (torná-los visíveis) antes que virem um incidente ou uma decisão arquitetural ruim.
+- Ferramentas e hábitos para isso:
+  - Manter um radar de tecnologia próprio ou do time, inspirado no [Technology Radar da ThoughtWorks](https://www.thoughtworks.com/radar) (quadrantes Techniques, Tools, Platforms, Languages & Frameworks; anéis Adopt, Trial, Assess, Hold).
+  - Ler changelogs, RFCs e post-mortems de outras empresas; participar de comunidades e conferências fora da própria stack.
+  - Fazer *spikes*/provas de conceito periódicas em tecnologias fora da zona de conforto, mesmo sem aplicação imediata.
+  - Conversar regularmente com especialistas de outras áreas (dados, segurança, SRE, mobile) para expor pontos cegos antes que virem problema.
+
 ### Arquitetura, resiliência e mensageria
 - Projeta estratégia de observabilidade (logs, métricas, tracing distribuído) consistente entre serviços e times.
 - Define e acompanha SLIs/SLOs/SLAs de serviços críticos; decide o que fazer quando não são atingidos (error budget).
@@ -220,6 +233,7 @@ Os níveis são cumulativos: tudo que é esperado de um Júnior também é esper
 | Mensageria | — | Conceitos de fila | Kafka vs RabbitMQ, garantias de entrega | Compatibilidade de contratos |
 | Arquitetura orientada a eventos | — | Noção | Projeta (outbox, event sourcing) | Define padrões organizacionais |
 | Teorema CAP | — | — | Aplica na escolha de banco/arquitetura | Decide em nível de plataforma |
+| Radar de tecnologia / amplitude | — | — | Profundidade na própria stack | Amplitude entre stacks; mapeia known/unknown unknowns |
 
 ---
 
